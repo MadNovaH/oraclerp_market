@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prix Revendeur Marchandises par Mael Ikihri</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=UnifrakturCook:ital@0;1&display=swap');
+
+        body {
+            font-family: 'UnifrakturCook', cursive;
+            background: linear-gradient(180deg, #0c0c1e 0%, #1a1a36 100%), url('https://wow.zamimg.com/images/logos/world-of-warcraft.svg') no-repeat center top;
+            background-size: contain;
+            color: #ffcc00;
+            margin: 0;
+            padding: 20px;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+        }
+        h1 {
+            text-align: center;
+            color: #ffcc00;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+        .search-bar {
+            width: 100%;
+            max-width: 500px;
+            margin: 20px auto;
+            display: block;
+            padding: 10px 15px;
+            border: 2px solid #444;
+            border-radius: 10px;
+            font-size: 1.2em;
+            background: #1e1e2a;
+            color: #ffcc00;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
+            background: #24243d;
+            border: 2px solid #444;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #444;
+        }
+        th {
+            background: #292947;
+            color: #ffcc00;
+            cursor: pointer;
+            position: sticky;
+            top: 0;
+            font-size: 1.2em;
+        }
+        th:hover {
+            background: #32324a;
+        }
+        tr:nth-child(even) {
+            background: #2e2e4e;
+        }
+        tr:hover {
+            background: #39394f;
+        }
+        tr.highlight {
+            background-color: #445544;
+        }
+        .image-cell img {
+            width: 60px;
+            height: auto;
+            display: block;
+            margin: auto;
+            border: 2px solid #555;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
+        }
+        .price-icon {
+            width: 24px;
+            height: 24px;
+            margin-left: 5px;
+            vertical-align: middle;
+        }
+        th span {
+            margin-left: 10px;
+            font-size: 0.9em;
+            color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div style="text-align: center;">
+        <h1 style="font-family: 'UnifrakturCook', cursive; font-size: 3em; letter-spacing: 2px; text-transform: uppercase; color: #ffcc00; text-shadow: 0 0 15px rgba(255, 204, 0, 0.8); margin: 0;">Prix Revendeur Marchandises</h1>
+        <p style="font-family: 'UnifrakturCook', cursive; font-size: 1.5em; color: #ffcc00; margin: 0;">par Mael Ikihri</p>
+    </div>
+    <input type="text" id="searchBar" class="search-bar" placeholder="Rechercher un objet...">
+    <table id="inventoryTable">
+        <thead>
+            <tr>
+                <th data-type="string" data-column="0">Nom <span id="arrow-0"></span></th>
+                <th data-type="number" data-column="1" data-sort="desc">Prix de Revente <span id="arrow-1">↓</span></th>
+                <th data-type="string" data-column="2">Image <span id="arrow-2"></span></th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Les données seront ajoutées ici via JavaScript -->
+        </tbody>
+    </table>
+
+    <script>
+        const inventory = [
+            { name: "Bois de chêne", price: 15, image: "roleplay/inventory/items/inv_tradeskillitem_03.png" },
+            { name: "Bois d'érable", price: 30, image: "roleplay/inventory/items/inv_tradeskillitem_03.png" },
+            { name: "Bois de bouleau", price: 45, image: "roleplay/inventory/items/inv_tradeskillitem_03.png" },
+            { name: "Planche de chêne", price: 50, image: "roleplay/inventory/items/inv_tradeskillitem_01.png" },
+            { name: "Planche d'érable", price: 100, image: "roleplay/inventory/items/inv_tradeskillitem_012.png" },
+            { name: "Planche de bouleau", price: 150, image: "roleplay/inventory/items/inv_tradeskillitem_011.png" },
+            { name: "Minerai de cuivre", price: 10, image: "roleplay/inventory/items/inv_ore_copper_01.png" },
+            { name: "Minerai de fer", price: 20, image: "roleplay/inventory/items/inv_ore_iron_01.png" },
+            { name: "Minerai d'or", price: 30, image: "roleplay/inventory/items/inv_ore_gold_01.png" },
+            { name: "Lingot de cuivre", price: 120, image: "roleplay/inventory/items/inv_ingot_02.png" },
+            { name: "Lingot de fer", price: 240, image: "roleplay/inventory/items/inv_ingot_iron.png" },
+            { name: "Lingot d'or", price: 360, image: "roleplay/inventory/items/inv_ingot_03.png" },
+            { name: "Bobine de fil de lin", price: 30, image: "roleplay/inventory/items/inv_fabric_linen_03.png" },
+            { name: "Bobine de fil de laine", price: 60, image: "roleplay/inventory/items/inv_fabric_wool_02.png" },
+            { name: "Bobine de fil de soie", price: 90, image: "roleplay/inventory/items/inv_fabric_silk_02.png" },
+            { name: "Étoffe de lin", price: 60, image: "roleplay/inventory/items/inv_fabric_linen_01.png" },
+            { name: "Étoffe de laine", price: 120, image: "roleplay/inventory/items/inv_fabric_wool_01.png" },
+            { name: "Étoffe de soie", price: 180, image: "roleplay/inventory/items/inv_fabric_silk_01.png" },
+            { name: "Cuir léger", price: 80, image: "roleplay/inventory/items/inv_misc_leatherscrap_07.png" },
+            { name: "Cuir moyen", price: 160, image: "roleplay/inventory/items/inv_misc_leatherscrap_03.png" },
+            { name: "Cuir lourd", price: 220, image: "roleplay/inventory/items/inv_10_skinning_leather_basicleather_color1.png" },
+            { name: "Malachite", price: 200, image: "roleplay/inventory/items/inv_misc_gem_emerald_03.png" },
+            { name: "Rubis", price: 400, image: "roleplay/inventory/items/inv_misc_gem_ruby_02.png" },
+            { name: "Aigue-marine", price: 600, image: "roleplay/inventory/items/inv_misc_gem_crystal_02.png" },
+            { name: "Peau détruite", price: 30, image: "roleplay/inventory/items/inv_misc_pelt_wolf_ruin_04.png" },
+            { name: "Fourrure dépouillée", price: 24, image: "roleplay/inventory/items/inv_misc_monstertail_01.png" },
+            { name: "Gilet déformé en cuir", price: 20, image: "roleplay/inventory/items/inv_shirt_05.png" },
+            { name: "Corde simple", price: 16, image: "roleplay/inventory/items/inv_belt_02.png" },
+            { name: "Branche simple", price: 10, image: "roleplay/inventory/items/inv_staff_02.png" },
+            { name: "Défense de sanglier cassée", price: 30, image: "roleplay/inventory/items/inv_misc_bone_05.png" },
+            { name: "Oeil de bestiole", price: 24, image: "roleplay/inventory/items/inv_misc_eye_01.png" },
+            { name: "Brassard râpé", price: 20, image: "roleplay/inventory/items/inv_bracer_10.png" },
+            { name: "Chaussure usé", price: 16, image: "roleplay/inventory/items/inv_boots_09.png" },
+            { name: "Clé de Benedict", price: 10, image: "roleplay/inventory/items/inv_misc_key_06.png" },
+            { name: "Fourrure", price: 30, image: "roleplay/inventory/items/inv_misc_nativebeastfur.png" },
+            { name: "Peau légère", price: 24, image: "roleplay/inventory/items/inv_misc_pelt_wolf_ruin_02.png" },
+            { name: "Fourrure miteuse", price: 20, image: "roleplay/inventory/items/inv_misc_pelt_bear_ruin_01.png" },
+            { name: "Sangle en cuir usée", price: 16, image: "roleplay/inventory/items/inv_leather_draenordungeon_c_01belt.png" },
+            { name: "Incisive dentelée", price: 10, image: "roleplay/inventory/items/inv_misc_bone_09.png" },
+            { name: "Dard écœurant", price: 30, image: "roleplay/inventory/items/inv_weapon_shortblade_16.png" },
+            { name: "Nectar sucré", price: 24, image: "roleplay/inventory/items/inv_drink_12.png" },
+            { name: "Cosse de bouture", price: 20, image: "roleplay/inventory/items/inv_misc_herb_08.png" },
+            { name: "Aile membraneuse", price: 16, image: "roleplay/inventory/items/inv_icon_wing03a.png" },
+            { name: "Branche", price: 10, image: "roleplay/inventory/items/inv_staff_02.png" },
+            { name: "Fourrure un peu nulle", price: 60, image: "roleplay/inventory/items/inv_misc_nativebeastfur.png" },
+            { name: "Peau", price: 48, image: "roleplay/inventory/items/inv_misc_pelt_wolf_ruin_02.png" },
+            { name: "Viande séchée coriace", price: 40, image: "roleplay/inventory/items/inv_misc_food_16.png" },
+            { name: "Morceau de sel séché", price: 32, image: "roleplay/inventory/items/inv_stone_08.png" },
+            { name: "Canine cassée", price: 20, image: "roleplay/inventory/items/inv_misc_bone_08.png" },
+            { name: "Crachat de poison", price: 60, image: "roleplay/inventory/items/ability_creature_poison_02.png" },
+            { name: "Minuscule coffre", price: 48, image: "roleplay/inventory/items/achievement_guildperk_mobilebanking.png" },
+            { name: "Anneau d'hématite", price: 40, image: "roleplay/inventory/items/inv_jewelry_ring_03.png" },
+            { name: "Morceau de braise-soie déchiré", price: 32, image: "roleplay/inventory/items/inv_misc_clothscrap_02.png" },
+            { name: "Toile fragile", price: 20, image: "roleplay/inventory/items/spell_fire_moltenblood.png" },
+            { name: "Médaillon de l'étoile", price: 60, image: "roleplay/inventory/items/inv_jewelry_necklace_02.png" },
+            { name: "Nectar sucré raté", price: 48, image: "roleplay/inventory/items/inv_drink_12.png" },
+            { name: "Coiffure de factionnaire", price: 40, image: "roleplay/inventory/items/inv_crown_01.png" },
+            { name: "Talisman vert luminescent", price: 32, image: "roleplay/inventory/items/inv_jewelry_necklace_01.png" },
+            { name: "Bâton piquant", price: 20, image: "roleplay/inventory/items/inv_misc_branch_01.png" },
+            { name: "Pierre de Relu", price: 60, image: "roleplay/inventory/items/inv_misc_stonetablet_04.png" },
+            { name: "Bandelettes sales", price: 48, image: "roleplay/inventory/items/inv_cloth_dragonquest_b_01_bracer.png" },
+            { name: "Livre", price: 40, image: "roleplay/inventory/items/inv_misc_book_03.png" },
+            { name: "Chope en bois", price: 32, image: "roleplay/inventory/items/inv_drink_04.png" },
+            { name: "Cuir usé", price: 20, image: "roleplay/inventory/items/inv_misc_leatherscrap_05.png" },
+            { name: "Un livre de cuisine", price: 60, image: "roleplay/inventory/items/inv_misc_book_03.png" },
+            { name: "Poulet rôti", price: 48, image: "roleplay/inventory/items/inv_misc_food_15.png" },
+            { name: "Etoffe runique", price: 40, image: "roleplay/inventory/items/inv_fabric_purplefire_01.png" },
+            { name: "Pain épicé", price: 32, image: "roleplay/inventory/items/inv_misc_food_11.png" },
+            { name: "Bâtonnet de tulle", price: 20, image: "roleplay/inventory/items/inv_wand_02.png" },
+            { name: "Bougie fondue", price: 60, image: "roleplay/inventory/items/inv_misc_candle_01.png" },
+            { name: "Cure-dents en arête de poisson", price: 48, image: "roleplay/inventory/items/inv_misc_bone_06.png" },
+            { name: "Coquillage luisant", price: 40, image: "roleplay/inventory/items/inv_misc_shell_01.png" },
+            { name: "Feuille de Vareche", price: 32, image: "roleplay/inventory/items/inv_misc_herb_04.png" },
+            { name: "Croc brisé", price: 20, image: "roleplay/inventory/items/inv_misc_bone_08.png" },
+            { name: "Poussière de minerais", price: 90, image: "roleplay/inventory/items/inv_misc_dust_01.png" },
+            { name: "Grande bougie", price: 72, image: "roleplay/inventory/items/inv_misc_candle_01.png" },
+            { name: "Pierre brute", price: 60, image: "roleplay/inventory/items/inv_stone_06.png" },
+            { name: "Arc court usé", price: 48, image: "roleplay/inventory/items/inv_weapon_bow_05.png" },
+            { name: "Tas de débris rouillés", price: 30, image: "roleplay/inventory/items/inv_misc_gear_08.png" },
+            { name: "Croc ébréché", price: 90, image: "roleplay/inventory/items/inv_misc_bone_08.png" },
+            { name: "Fluide fluorescent", price: 72, image: "roleplay/inventory/items/ability_creature_poison_02.png" },
+            { name: "Chope en métal", price: 60, image: "roleplay/inventory/items/inv_drink_03.png" },
+            { name: "Cuir de mauvaise qualité", price: 48, image: "roleplay/inventory/items/inv_misc_leatherscrap_05.png" },
+            { name: "Petite clé", price: 30, image: "roleplay/inventory/items/inv_misc_key_06.png" },
+            { name: "Houblon", price: 90, image: "roleplay/inventory/items/inv_misc_herb_08.png" },
+            { name: "Tube en cuivre tordu", price: 72, image: "roleplay/inventory/items/inv_gizmo_pipe_02.png" },
+            { name: "Poignée de boulons en cuivre", price: 60, image: "roleplay/inventory/items/inv_misc_gear_06.png" },
+            { name: "Hachette usée", price: 48, image: "roleplay/inventory/items/inv_throwingaxe_01.png" },
+            { name: "Modulateur cassé", price: 30, image: "roleplay/inventory/items/inv_gizmo_03.png" },
+            { name: "Lait glacé", price: 90, image: "roleplay/inventory/items/inv_drink_milk_01.png" },
+            { name: "Gants de disciple", price: 72, image: "roleplay/inventory/items/inv_gauntlets_21.png" },
+            { name: "Chope en métal brossé", price: 60, image: "roleplay/inventory/items/inv_drink_03.png" },
+            { name: "Arc court cassé", price: 48, image: "roleplay/inventory/items/inv_weapon_bow_05.png" },
+            { name: "Marteau inutilisable", price: 30, image: "roleplay/inventory/items/inv_hammer_15.png" },
+        ];
+
+        const highlightThreshold = 100;
+
+        function formatPrice(value) {
+            const gold = Math.floor(value / 10000);
+            const silver = Math.floor((value % 10000) / 100);
+            const copper = value % 100;
+
+            let priceString = '';
+
+            if (gold > 0) {
+                priceString += `${gold} <img class="price-icon" src="roleplay/inventory/items/inv_misc_coin_17.png" alt="PO"> `;
+            }
+            if (silver > 0) {
+                priceString += `${silver} <img class="price-icon" src="roleplay/inventory/items/inv_misc_coin_18.png" alt="PA"> `;
+            }
+            if (copper > 0 || priceString === '') {
+                priceString += `${copper} <img class="price-icon" src="roleplay/inventory/items/inv_misc_coin_19.png" alt="PC">`;
+            }
+
+            return priceString.trim();
+        }
+
+        function populateTable(filter = "") {
+            const tbody = document.querySelector('#inventoryTable tbody');
+            tbody.innerHTML = '';
+            inventory
+                .filter(item => item.name.toLowerCase().includes(filter.toLowerCase()))
+                .forEach(item => {
+                    const row = document.createElement('tr');
+                    if (item.price >= highlightThreshold) {
+                        row.classList.add('highlight');
+                    }
+
+                    row.innerHTML = `
+                        <td>${item.name}</td>
+                        <td data-price="${item.price}">${formatPrice(item.price)}</td>
+                        <td class="image-cell"><img src="${item.image}" alt="${item.name}"></td>
+                    `;
+                    tbody.appendChild(row);
+                });
+        }
+
+        function sortTable(columnIndex, ascending) {
+            const tbody = document.querySelector('#inventoryTable tbody');
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+
+            rows.sort((a, b) => {
+                const aValue = columnIndex === 1 ? parseInt(a.children[columnIndex].dataset.price) : a.children[columnIndex].innerText;
+                const bValue = columnIndex === 1 ? parseInt(b.children[columnIndex].dataset.price) : b.children[columnIndex].innerText;
+
+                if (columnIndex === 1) {
+                    return ascending ? aValue - bValue : bValue - aValue;
+                } else {
+                    return ascending ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
+                }
+            });
+
+            tbody.innerHTML = '';
+            rows.forEach(row => tbody.appendChild(row));
+        }
+
+        document.getElementById('searchBar').addEventListener('input', (e) => {
+            populateTable(e.target.value);
+            sortTable(1, false); // Re-trier après la recherche
+        });
+
+        document.querySelectorAll('th').forEach(header => {
+            header.addEventListener('click', () => {
+                const columnIndex = parseInt(header.dataset.column);
+                const currentSort = header.dataset.sort === 'asc';
+                const newSort = !currentSort;
+
+                header.dataset.sort = newSort ? 'asc' : 'desc';
+                sortTable(columnIndex, newSort);
+
+                document.querySelectorAll('th span').forEach(span => span.textContent = '');
+                const arrow = document.getElementById(`arrow-${columnIndex}`);
+                arrow.textContent = newSort ? '↑' : '↓';
+            });
+        });
+
+        // Initial population and sort
+        populateTable();
+        sortTable(1, false);
+    </script>
+</body>
+</html>
